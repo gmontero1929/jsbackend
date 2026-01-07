@@ -45,11 +45,13 @@ router.post("/login", async (req, res) => {
     
     const ok = await bcrypt.compare(pass, user[0].clave);    
     if (!ok){     
-      return res.status(400).json({ error: "Contraseña incorrecta" });
+      return res.status(400).json({ error: "Las credenciales son incorrectas" });
     }
     
     const token = jwt.sign(
-      { id: user[0].id, rol: user[0].roll, user: user[0].usuario},
+      { id: user[0].id, rol: user[0].roll, user: user[0].usuario, 
+        email:user[0].email, company:user[0].compania, isvalid:user[0].validado
+      },
       process.env.JWT_SECRET,
       { expiresIn: "3h" }
     ); 
