@@ -7,10 +7,20 @@ import path from 'path'
 //import { connectDBSqlServer, sequelize} from "./config/db.js";
 import {DataTypes} from 'sequelize'
 
-import authRoutes from "./routes/auth.js";
+
+
+import user2Router from "./config/auth.js";
+import userRouter from "./routes/user.routes.js"
+import companyRouter from './routes/company.routes.js'
+import emailRouter from './routes/email.routes.js'
+
 import productosRoutes from "./routes/productos.js";
-import serviciosRoutes from "./routes/servicios.js";
+import serviciosRoutes from "./services/servicios.js";
 import ofertasRoutes from "./routes/ofertas.js";
+
+
+
+
 //import helmet from "helmet";
 
 dotenv.config();
@@ -45,7 +55,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/uploads", express.static("uploads"));
 
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 3998;
 
 
 const storage = multer.diskStorage({
@@ -88,7 +98,15 @@ app.delete("/delete-multiple", (req, res) => {
   res.json({ message: "Imágenes eliminadas", count: files.length });
 });
 
-app.use("/api/auth", authRoutes);
+//app.use("/api/auth", user2Router);
+app.use("/api/v1/", userRouter);
+
+
+app.use("/api/v1/", companyRouter)
+
+app.use("/api/v1/", emailRouter)
+
+
 app.use("/api/productos", productosRoutes);
 app.use("/api/servicios", serviciosRoutes);
 app.use("/api/ofertas", ofertasRoutes);
