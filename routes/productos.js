@@ -1,6 +1,6 @@
 import express from "express";
 import sql from "mssql";
-import { authRequired, requirePermission } from "../middleware/authMiddleware.js";
+import { authRequired, requirePermission } from "../middleware/auth.middleware.js";
 //import { connectDBSqlServer, connectDBMysql, sequelize } from "../config/db.js";
 import { connectDBMysql} from "../config/db.js";
 
