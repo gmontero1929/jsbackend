@@ -11,8 +11,8 @@ const transporter = nodemailer.createTransport({
   }
 });
 
-export async function enviarEmail(emailTo, emailSubject, emailMsg) {
-  try {    
+export async function enviarEmail(email, nombre, emailMsg) {
+ /*try {    
     const info = await transporter.sendMail({
       from: '"JACOMDAS.COM" <info@jacomdas.com>',
       to: emailTo,
@@ -27,4 +27,26 @@ export async function enviarEmail(emailTo, emailSubject, emailMsg) {
     } catch (error) {
     return {message: "Error enviando correo:" , error:error}        
   }
+*/
+    try {
+    const info = await transporter.sendMail({
+      from: `"JACOMDAS.COM" <${process.env.EMAIL_USER}>`,
+      to: process.env.EMAIL_USER, // TU correo de Hostinger
+      subject: `Nuevo mensaje de ${nombre}`,
+      html: `
+        <h3>Nuevo mensaje desde Jacomdas.com</h3>
+        <p><strong>Nombre:</strong> ${nombre}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Mensaje:</strong><br>${emailMsg}</p>
+      `
+    });
+
+     return {message:"Mensage enviado:", data: info.messageId}    
+
+  } catch (error) {
+    console.error(error);
+    return {message: "Error enviando email:" , error:error}       
+  }
+
 }
+
