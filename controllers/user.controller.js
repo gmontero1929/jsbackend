@@ -7,6 +7,8 @@ const usc = new userService();
 export const getUsers = async (req, res, next) => {
   try {
     const respuesta = await usc.getAllUser();
+
+    
     
     if(Object.keys(respuesta.users).length===0){
         return res.status(404).json({"Error":"No existe data."})

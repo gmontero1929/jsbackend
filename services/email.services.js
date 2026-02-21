@@ -5,10 +5,10 @@ import { enviarEmail } from "../utils/gestionEmails.js";
 export class emailService{
     constructor(){}
 
-    sendEmail = async (emailTo, emailSubject, emailMsg) => {
+    sendEmail = async (email, nombre, emailMsg) => {
     try {                    
                  
-        const result = enviarEmail(emailTo, emailSubject, emailMsg);
+        const result = enviarEmail(email, nombre, emailMsg);
         
         return result;        
             
