@@ -5,6 +5,7 @@ export const sendEmails = async (req, res, next) => {
     
     const email = req.body.email;
     const nombre = req.body.nombre;
+    const servicioInteres = req.body.servicioInteres;
     const emailMsg = req.body.emailmsg;
     
     if(email=="" || email=="" || emailMsg==""){
@@ -16,7 +17,7 @@ export const sendEmails = async (req, res, next) => {
 
     const clsEmail  = new emailService();
 
-    const respuesta = await clsEmail.sendEmail(email,nombre,emailMsg);
+    const respuesta = await clsEmail.sendEmail(email,nombre,servicioInteres,emailMsg);
     
     if(respuesta.error){
         return res.status(500).json(respuesta)

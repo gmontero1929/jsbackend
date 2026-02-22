@@ -1,14 +1,14 @@
 //import express from "express";
 
-import { enviarEmail } from "../utils/gestionEmails.js";
+import { enviarCorreos } from "../utils/gestionEmails.js";
 
 export class emailService{
     constructor(){}
 
-    sendEmail = async (email, nombre, emailMsg) => {
+    sendEmail = async (email, nombre, servicioInteres ,emailMsg) => {
     try {                    
                  
-        const result = enviarEmail(email, nombre, emailMsg);
+        const result = enviarCorreos(email, nombre,servicioInteres, emailMsg);
         
         return result;        
             
