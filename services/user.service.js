@@ -94,7 +94,7 @@ createUser = async(user)=>{
     try {
         
         const {id ,usuario, pass, rol, email} = user;   
-        const userValidating = validateUserDate(user);    
+        const userValidating = validateUserData(user);    
         
         if(!userValidating.isvalid){            
             return {message:userValidating.message}
@@ -139,13 +139,61 @@ getDeleteByUserId = async (userid) => {
       }
 };
 
-}
-
-export const getUpdateId = async (userid) => {
-  return await User.findById(id);
+getUserById = async (id) => {
+    try {
+          
+        const db = await connectDBMysql();
+        const [user] = await db.query(`SELECT * from Usuarios where id = '${id}'`);
+                    
+        if (user.length === 0) {    
+           return {"user":{}, "message":"Usuario no existe"}    
+        }
+        const {usuario, email, roll, compania, validado} = user[0];
+        const userVirtual = {id, usuario, roll, email, compania, validado}
+                
+         return {"user":userVirtual, "message":"Ok"}        
+    
+      } catch (err) {
+        console.log("ERROR EN LOGIN:", err);
+        return { error: "Error interno del servidor" };
+      } 
 };
 
-const validateUserDate=(user) =>{
+updateUser = async (user) => {
+  try {
+        
+        const {id, usuario, roll, email, compania, validado}= user;   
+        const userValidating = validateUpdateUserData(user);    
+        
+        if(!userValidating.isvalid){            
+            return {message:userValidating.message}
+        }
+        
+        const db = await connectDBMysql();
+        console.log(id)
+        const [rowsUserUpdate] = await db.query(`
+          UPDATE Usuarios SET usuario='${usuario}', roll=${roll}, email='${email}',
+                              compania='${compania}', validado=${validado}  
+          where id=${id}     
+          `);
+        
+        if(rowsUserUpdate.affectedRows>1){
+            return {user:user, message:"Usuario modificado satisfactoriamente."}    
+        }    
+        
+        return ({ message: "Usuario no registrado" });    
+
+      } catch (error) {         
+        console.log("ERROR EN LOGIN:", error);
+        return { error: "Error interno del servidor" };
+      }
+};
+
+}
+
+
+
+const validateUserData=(user) =>{
     try {
 
         if(!user.usuario){
@@ -163,6 +211,32 @@ const validateUserDate=(user) =>{
         if(!user.email){
             return {isvalid:false,message:"Email field does not exist or is empty."}              
         }
+
+        return {isvalid:true,message:"Datos validados"}  
+    } catch (error) {
+       return {isvalid:false,message:"Error validating user data"}      
+    }
+}
+
+const validateUpdateUserData=(user) =>{
+    try {
+       
+        if(!user.usuario){
+           return {isvalid:false,message:"User field does not exist or is empty."} 
+        }
+
+        if(!user.roll){
+            return {isvalid:false,message:"Roll field does not exist or is empty."}              
+        }
+
+        if(!user.email){
+            return {isvalid:false,message:"Email field does not exist or is empty."}              
+        }
+
+        if(!user.compania){
+            return {isvalid:false,message:"Company field does not exist or is empty."}              
+        }
+
 
         return {isvalid:true,message:"Datos validados"}  
     } catch (error) {
