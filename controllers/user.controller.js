@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 
 import {userService} from '../services/user.service.js';
+import { useParams } from "react-router-dom";
 
 const usc = new userService(); 
 
@@ -47,6 +48,27 @@ export const getUserByUserId = async (req, res, next) => {
   }
 };
 
+
+export const getUserById = async (req, res, next) => { 
+  try {        
+    const id = req.body.id    
+    const respuesta = await usc.getUserById(id);
+     
+    if(!respuesta.user || Object.keys(respuesta.user).length === 0){            
+      return res.status(404).json({ Error: respuesta.message});
+    }
+    
+    const user = respuesta.user;
+       
+    return res.status(200).json({ user });    
+    
+  } catch (error) {
+    console.log("Error comun" + error)
+    next(error);
+  }
+};
+
+
 export const registerUser = async(req, res, next)=>{
     try {
     const data = req.body;      
@@ -70,9 +92,18 @@ export const registerUser = async(req, res, next)=>{
   }
 };
 
+
 export const updateUser = async(req, res, next)=>{
-     try {
-    const user = await usc.getById(req.params.id);
+    try {
+    const data = req.body;         
+    const userFound = await usc.updateUser(data.user);
+        
+    if(!userFound.message==="Ok"){        
+      return res.status(400).json({message: "El usuario no existe"});
+    }  
+    
+    return res.status(200).json(userFound);
+
     res.json(user);
   } catch (error) {
     next(error);
