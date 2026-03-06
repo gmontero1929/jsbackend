@@ -12,7 +12,6 @@ export const getCompanies = async (req, res, next) => {
   try {
     //const respuesta = await getAllCompany();
     const respuesta = await getAllCompany();
-    console.log(respuesta);
     if(Object.keys(respuesta.companies).length===0){
         return res.status(404).json({"Error":"No existe data."})
     }
