@@ -21,7 +21,8 @@ export const getUsers = async (req, res, next) => {
   }
 };
 
-export const getUserByUserId = async (req, res, next) => {
+
+export const getUserByUserAndPass = async (req, res, next) => {
   try {      
     const userid = req.body.user
     const pass = req.body.pass   
@@ -110,9 +111,10 @@ export const updateUser = async(req, res, next)=>{
   }
 };
 
-export const deleteUser = async(req, res, next)=>{
+
+export const deleteById = async(req, res, next)=>{
     try {       
-    const user = await usc.getDeleteByUserId(req.body.user);
+    const user = await usc.getDeleteById(req.body.id);
 
     if(user.user){
       return res.status(400).json(user)
@@ -126,4 +128,19 @@ export const deleteUser = async(req, res, next)=>{
   }
 };
 
-//export {getUserByUserId}
+export const deleteByUser = async(req, res, next)=>{
+    try {       
+    const user = await usc.getDeleteByUser(req.body.user);
+
+    if(user.user){
+      return res.status(400).json(user)
+    }
+
+    if(!user.user){
+      return res.status(200).json(user)
+    }    
+  } catch (error) {
+    next(error);
+  }
+};
+
