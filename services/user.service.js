@@ -27,6 +27,26 @@ getAllUser = async () => {
 
 };
 
+getUserById = async (id) => {
+    try {
+          
+        const db = await connectDBMysql();
+        const [user] = await db.query(`SELECT * from Usuarios where id = '${id}'`);
+                    
+        if (user.length === 0) {    
+           return {"user":{}, "message":"Usuario no existe"}    
+        }
+        const {usuario, email, roll, compania, validado} = user[0];
+        const userVirtual = {id, usuario, roll, email, compania, validado}
+                
+         return {"user":userVirtual, "message":"Ok"}        
+    
+      } catch (err) {
+        console.log("ERROR EN LOGIN:", err);
+        return { error: "Error interno del servidor" };
+      } 
+};
+
 getUserByUser = async (userid) => {
     try {
           
@@ -121,17 +141,17 @@ createUser = async(user)=>{
       
 };
 
-getDeleteByUserId = async (userid) => {
+getDeleteById = async (id) => {
     try {  
               
         const db = await connectDBMysql();
-        const [user] = await db.query(`DELETE from Usuarios where usuario = '${userid}'`);
+        const [datauser] = await db.query(`DELETE from Usuarios where id = '${id}'`);
         
-        if (user.affectedRows === 0) { 
-          return {user:userid, message:`El usuario (${userid}) no existe`}
+        if (datauser.affectedRows === 0) { 
+          return {user:id, message:`El usuario (${id}) no existe`}
         }        
           
-       return {user:"",message:`Usuario (${userid}) eliminado con existo`}    
+       return {user:{},message:`Usuario (${id}) eliminado con existo`}    
                
       } catch (err) {
         console.log("ERROR EN LOGIN:", err);
@@ -139,24 +159,22 @@ getDeleteByUserId = async (userid) => {
       }
 };
 
-getUserById = async (id) => {
-    try {
-          
+getDeleteByUser = async (user) => {
+    try {  
+              
         const db = await connectDBMysql();
-        const [user] = await db.query(`SELECT * from Usuarios where id = '${id}'`);
-                    
-        if (user.length === 0) {    
-           return {"user":{}, "message":"Usuario no existe"}    
-        }
-        const {usuario, email, roll, compania, validado} = user[0];
-        const userVirtual = {id, usuario, roll, email, compania, validado}
-                
-         return {"user":userVirtual, "message":"Ok"}        
-    
+        const [datauser] = await db.query(`DELETE from Usuarios where usuario = '${user}'`);
+        
+        if (datauser.affectedRows === 0) { 
+          return {user:{}, message:`El usuario (${user}) no existe`}
+        }        
+          
+       return {user:{},message:`Usuario (${user}) eliminado con existo`}    
+               
       } catch (err) {
         console.log("ERROR EN LOGIN:", err);
         return { error: "Error interno del servidor" };
-      } 
+      }
 };
 
 updateUser = async (user) => {
@@ -190,8 +208,6 @@ updateUser = async (user) => {
 };
 
 }
-
-
 
 const validateUserData=(user) =>{
     try {
