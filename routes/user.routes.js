@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.get('/users', getUsers);
 router.get('/user/byid', getUserById);
-router.get('/user/byuserandpass', getUserByUserAndPass);
+router.post('/user/byuserandpass', getUserByUserAndPass);
 
 //router.post('/user', getUserByUserId);
 router.post('/user/create', registerUser);

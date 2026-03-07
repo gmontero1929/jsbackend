@@ -97,7 +97,7 @@ getByUser = async (userid, pass) => {
         
         const ok = await bcrypt.compare(pass, user[0].clave);    
         if (!ok){   
-          return {"user":{}, "message":"Las credenciales son incorrectas"}               
+          return {"user":{}, "message":"Credenciales incorrectas"}               
         }
         
          return {"user":user[0], "message":"Ok"}        
