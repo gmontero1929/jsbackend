@@ -72,8 +72,12 @@ export const getUserById = async (req, res, next) => {
 
 export const registerUser = async(req, res, next)=>{
     try {
-    const data = req.body;      
+    const data = req.body;
     
+    if(data.pass.length<11){        
+      return res.status(400).json({message: "The password must be grater or equal than 11"});
+    } 
+        
     const userFound = await usc.getUserByUser(data.usuario);
         
     if(userFound.message==="Ok"){        
