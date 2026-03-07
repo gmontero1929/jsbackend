@@ -38,7 +38,7 @@ export const getUserByUserAndPass = async (req, res, next) => {
             email:user.email, company:user.compania, isvalid:user.validado
           },
           process.env.JWT_SECRET,
-          { expiresIn: `${process.env.EXPIRA}h` }
+          { expiresIn: `${process.env.EXPIRA}` }
     ); 
     
     res.status(200).json({ token });    
