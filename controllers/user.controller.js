@@ -25,8 +25,9 @@ export const getUsers = async (req, res, next) => {
 export const getUserByUserAndPass = async (req, res, next) => {
   try {      
     const userid = req.body.user
-    const pass = req.body.pass   
-    const respuesta = await usc.getByUser(userid, pass);
+    const pass = req.body.pass
+       
+    const respuesta = await usc.getByUserAndPass(userid, pass);
      
     if(!respuesta.user || Object.keys(respuesta.user).length === 0){            
       return res.status(404).json({ Error: respuesta.message});
@@ -118,7 +119,7 @@ export const updateUser = async(req, res, next)=>{
 
 export const deleteById = async(req, res, next)=>{
     try {       
-    const user = await usc.getDeleteById(req.body.id);
+    const user = await usc.delete_ById(req.body.id);
 
     if(user.user){
       return res.status(400).json(user)
@@ -134,7 +135,7 @@ export const deleteById = async(req, res, next)=>{
 
 export const deleteByUser = async(req, res, next)=>{
     try {       
-    const user = await usc.getDeleteByUser(req.body.user);
+    const user = await usc.delete_ByUser(req.body.user);
 
     if(user.user){
       return res.status(400).json(user)

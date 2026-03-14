@@ -7,7 +7,10 @@ export const authRequired = async (req, res, next) => {
 
   const token = hdr.split(" ")[1];
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    const JWT_SECRET = "";
+
+    const decoded = jwt.verify(token, JWT_SECRET);
     req.user = decoded;
 
     // Obtener permisos del usuario
