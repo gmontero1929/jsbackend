@@ -85,21 +85,22 @@ getUserByEmail = async (email) => {
   //return await User.findById(id);
 };
 
-getByUser = async (userid, pass) => {
+getByUserAndPass = async (userid, pass) => {
     try {
           
         const db = await connectDBMysql();
         const [user] = await db.query(`SELECT * from Usuarios where usuario = '${userid}'`);
-                    
-        if (user.length === 0) {    
-           return {"user":{}, "message":"Usuario no existe"}    
-        }
         
-        const ok = await bcrypt.compare(pass, user[0].clave);    
-        if (!ok){   
-          return {"user":{}, "message":"Credenciales incorrectas"}               
-        }
+         if(user.length===0){
+          return {"user":{}, "message":"Credenciales incorrectas"} 
+        } 
+
+        const userIsValid = await validarUserCredencial(user[0], pass);
         
+        if(!userIsValid){
+          return {"user":{}, "message":"Credenciales incorrectas"} 
+        }  
+                
          return {"user":user[0], "message":"Ok"}        
     
       } catch (err) {
@@ -141,7 +142,7 @@ createUser = async(user)=>{
       
 };
 
-getDeleteById = async (id) => {
+delete_ById = async (id) => {
     try {  
               
         const db = await connectDBMysql();
@@ -159,7 +160,7 @@ getDeleteById = async (id) => {
       }
 };
 
-getDeleteByUser = async (user) => {
+delete_ByUser = async (user) => {
     try {  
               
         const db = await connectDBMysql();
@@ -188,17 +189,17 @@ updateUser = async (user) => {
         }
         
         const db = await connectDBMysql();
-        console.log(id)
+
         const [rowsUserUpdate] = await db.query(`
           UPDATE Usuarios SET usuario='${usuario}', roll=${roll}, email='${email}',
                               compania='${compania}', validado=${validado}  
           where id=${id}     
           `);
         
-        if(rowsUserUpdate.affectedRows>1){
+        if(rowsUserUpdate.affectedRows>0){
             return {user:user, message:"Usuario modificado satisfactoriamente."}    
-        }    
-        
+        }  
+                      
         return ({ message: "Usuario no registrado" });    
 
       } catch (error) {         
@@ -258,4 +259,35 @@ const validateUpdateUserData=(user) =>{
     } catch (error) {
        return {isvalid:false,message:"Error validating user data"}      
     }
+}
+
+
+const validarUserCredencial= async(user, pass)=>{
+        if (user.length === 0) {    
+           return false; 
+        }
+
+        if (user.compania.trim()===""){   
+          return false;               
+        }
+
+        if (user.validado===0){   
+          return false;               
+        }
+
+        const sqlString = "SELECT * from compania where rnc_ced = ?"
+        const dbConexion = await connectDBMysql();
+        const [company] = await dbConexion.execute(sqlString,[ user.compania.trim() ]);
+
+        
+        if (company.length===0) {    
+          return false;  
+        }                       
+
+        const ok = await bcrypt.compare(pass, user.clave);    
+        if (!ok){   
+          return false;               
+        }
+
+        return true;
 }
