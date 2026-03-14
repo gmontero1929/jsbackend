@@ -101,7 +101,6 @@ app.delete("/delete-multiple", (req, res) => {
 //app.use("/api/auth", user2Router);
 app.use("/api/v1/", userRouter);
 
-
 app.use("/api/v1/", companyRouter)
 
 app.use("/api/v1/", emailRouter)
