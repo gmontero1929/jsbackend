@@ -1,11 +1,10 @@
 
-import { connectDBMysql} from "../config/db.js";
+import { db } from "../config/db.js";
 import 'dotenv/config'
 
 getAllVisitas = async () => {
-    try {                    
-        const dbConexion = await connectDBMysql();
-        const [visitas] = await dbConexion.query(`SELECT * from visitas`);
+    try {                            
+        const [visitas] = await db.query(`SELECT * from visitas`);
                 
         return { "users":visitas,"message": "Ok" };
             

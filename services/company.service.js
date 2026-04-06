@@ -1,4 +1,4 @@
-import { connectDBMysql} from "../config/db.js";
+import { db} from "../config/db.js";
 
 export class Company {
   constructor(parameters) {
@@ -8,8 +8,8 @@ export class Company {
 
 export const getAllCompany = async () => {
     try {                    
-        const dbConexion = await connectDBMysql();
-        const [companies] = await dbConexion.query(`SELECT * from compania`);
+        
+        const [companies] = await db.query(`SELECT * from compania`);
                   
         if (Object.keys(companies).length === 0) {    
           return { "users":{}, "message": "No existe data" };
@@ -27,9 +27,8 @@ export const getCompany_ByCode = async (codigo) => {
     try {  
       
         const sqlString = "SELECT * from compania where codigo = ?"
-
-        const dbConexion = await connectDBMysql();
-        const [company] = await dbConexion.execute(sqlString,[ codigo ]);
+        
+        const [company] = await db.execute(sqlString,[ codigo ]);
                   
         if (company.affectedRows===0) {    
           return { "company":{}, "message": "No existe data" };
@@ -48,8 +47,7 @@ export const getCompany_ByRnc = async (rnc) => {
       
         const sqlString = "SELECT * from compania where rnc_ced = ?"
 
-        const dbConexion = await connectDBMysql();
-        const [company] = await dbConexion.execute(sqlString,[ rnc ]);
+        const [company] = await db.execute(sqlString,[ rnc ]);
                   
         if (company.affectedRows===0) {    
           return { "company":{}, "message": "No existe data" };
@@ -73,8 +71,6 @@ export const create_Company = async (cia) => {
         (codigo,rnc_ced,nombre,descripcion,direccion,email,telefono,celular)
         values(?,?,?,?,?,?,?,?)`
       
-        const dbConexion = await connectDBMysql();
-        
         const data = [
         cia.codigo,
         cia.rnc_ced,
@@ -86,7 +82,7 @@ export const create_Company = async (cia) => {
         cia.celular
         ].map(v => v ?? null);
 
-        const [companies]  =  await dbConexion.execute(sqlString, data);
+        const [companies]  =  await db.execute(sqlString, data);
 
         console.log("ID generado:", companies.insertId);
   
@@ -116,9 +112,7 @@ export const update_Company = async (cia) => {
         telefono=?,
         celular=?
         where codigo=${cia.codigo}`
-      
-        const dbConexion = await connectDBMysql();
-        
+                      
         const data = [
         cia.codigo,
         cia.rnc_ced,
@@ -130,7 +124,7 @@ export const update_Company = async (cia) => {
         cia.celular
         ].map(v => v ?? null);
 
-        const [companies]  =  await dbConexion.execute(sqlString, data);
+        const [companies]  =  await db.execute(sqlString, data);
 
   
         if (companies.affectedRows > 0) {    
@@ -147,9 +141,8 @@ export const update_Company = async (cia) => {
 
 export const delete_Company = async (codigo) => {
     try {                    
-        const dbConexion = await connectDBMysql();      
-
-        const [companies] = await dbConexion.query(`DELETE FROM compania WHERE CODIGO = ${codigo}`);
+        
+        const [companies] = await db.query(`DELETE FROM compania WHERE CODIGO = ${codigo}`);
                   
         if (companies.affectedRows>0){    
           return { "users":codigo, "message": "Ok" };

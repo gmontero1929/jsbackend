@@ -2,7 +2,7 @@ import express from "express";
 import sql from "mssql";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { connectDBMysql} from "./db.js";
+import {db} from "./db.js";
 import 'dotenv/config'
 //import { connectDBSqlServer, connectDBMysql, sequelize } from "../config/db.js";
 
@@ -14,8 +14,7 @@ router.post("/register", async (req, res) => {
   try {
     const {id ,usuario, pass, rol, email} = req.body;    
     const passhash = await bcrypt.hash(pass, 10);
-    const db = await connectDBMysql();
-
+    
     const [rowsUserInsert] = await db.query(
       `INSERT INTO Usuarios
       (id, usuario, clave, roll, email)
@@ -34,8 +33,7 @@ router.post("/login", async (req, res) => {
   try {
     const { usuario, pass } = req.body; 
     //const user = await queryReturnUsers(usuario);
-
-    const db = await connectDBMysql();
+    
     const [user] = await db.query(`SELECT * from Usuarios where usuario = '${usuario}'`);
     console.log(user);
         
