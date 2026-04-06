@@ -1,7 +1,7 @@
 //import express from "express";
 import bcrypt from "bcryptjs";
 
-import { connectDBMysql} from "../config/db.js";
+import { db} from "../config/db.js";
 import 'dotenv/config'
 //import { json, JSON } from "sequelize";
 //import Message from "tedious/lib/message.js";
@@ -10,9 +10,9 @@ export class userService{
     constructor(){}
 
 getAllUser = async () => {
-    try {                    
-        const dbConexion = await connectDBMysql();
-        const [users] = await dbConexion.query(`SELECT * from Usuarios`);
+    try {                   
+        
+        const [users] = await db.query(`SELECT * from Usuarios`);
         
         if (Object.keys(users).length === 0) {    
           return { "users":users, "message": "No existe data" };
@@ -29,8 +29,7 @@ getAllUser = async () => {
 
 getUserById = async (id) => {
     try {
-          
-        const db = await connectDBMysql();
+        
         const [user] = await db.query(`SELECT * from Usuarios where id = '${id}'`);
                     
         if (user.length === 0) {    
@@ -49,8 +48,7 @@ getUserById = async (id) => {
 
 getUserByUser = async (userid) => {
     try {
-          
-        const db = await connectDBMysql();
+        
         const [user] = await db.query(`SELECT * from Usuarios where usuario = '${userid}'`);
                     
         if (user.length === 0) {    
@@ -67,8 +65,7 @@ getUserByUser = async (userid) => {
 
 getUserByEmail = async (email) => {
     try {
-          
-        const db = await connectDBMysql();
+        
         const [user] = await db.query(`SELECT * from Usuarios where email = '${email}'`);
                     
         if (user.length === 0) {    
@@ -87,8 +84,7 @@ getUserByEmail = async (email) => {
 
 getByUserAndPass = async (userid, pass) => {
     try {
-          
-        const db = await connectDBMysql();
+        
         const [user] = await db.query(`SELECT * from Usuarios where usuario = '${userid}'`);
         
          if(user.length===0){
@@ -122,8 +118,7 @@ createUser = async(user)=>{
         }
         
         const passhash = await bcrypt.hash(pass, 10);
-        const db = await connectDBMysql();
-    
+            
         const [rowsUserInsert] = await db.query(
           `INSERT INTO Usuarios
           (id, usuario, clave, roll, email)
@@ -144,8 +139,7 @@ createUser = async(user)=>{
 
 delete_ById = async (id) => {
     try {  
-              
-        const db = await connectDBMysql();
+        
         const [datauser] = await db.query(`DELETE from Usuarios where id = '${id}'`);
         
         if (datauser.affectedRows === 0) { 
@@ -162,8 +156,7 @@ delete_ById = async (id) => {
 
 delete_ByUser = async (user) => {
     try {  
-              
-        const db = await connectDBMysql();
+        
         const [datauser] = await db.query(`DELETE from Usuarios where usuario = '${user}'`);
         
         if (datauser.affectedRows === 0) { 
@@ -188,8 +181,6 @@ updateUser = async (user) => {
             return {message:userValidating.message}
         }
         
-        const db = await connectDBMysql();
-
         const [rowsUserUpdate] = await db.query(`
           UPDATE Usuarios SET usuario='${usuario}', roll=${roll}, email='${email}',
                               compania='${compania}', validado=${validado}  
@@ -276,8 +267,8 @@ const validarUserCredencial= async(user, pass)=>{
         }
 
         const sqlString = "SELECT * from compania where rnc_ced = ?"
-        const dbConexion = await connectDBMysql();
-        const [company] = await dbConexion.execute(sqlString,[ user.compania.trim() ]);
+        
+        const [company] = await db.execute(sqlString,[ user.compania.trim() ]);
 
         
         if (company.length===0) {    
