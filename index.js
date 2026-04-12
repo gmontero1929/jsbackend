@@ -53,7 +53,7 @@ const usuario  = sequelize.define('usuario2',{
 const app = express();
 //app.use(cors({origin: 'http://localhost:4001'}));
 //https://jsbackend-4g8h.onrender.com
-app.use(cors({origin: 'https://jsbackend-4g8h.onrender.com'}));
+app.use(cors());
 app.options("*", cors())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
