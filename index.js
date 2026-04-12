@@ -53,6 +53,11 @@ const usuario  = sequelize.define('usuario2',{
 const app = express();
 
 const allowedOrigins = [
+<<<<<<< HEAD
+=======
+  //'http://localhost:4173',
+  //'http://localhost:4001',
+>>>>>>> f983883a875ace1e9e484d9487fd0a1537d9bc41
   'https://jsbackend-4g8h.onrender.com',
   'https://jacomdas.com'
 ];
