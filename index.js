@@ -51,15 +51,10 @@ const usuario  = sequelize.define('usuario2',{
  //console.log('All users:', JSON.stringify(users, null, 2));
 
 const app = express();
-
+/*
 const allowedOrigins = [
-<<<<<<< HEAD
-=======
-  //'http://localhost:4173',
-  //'http://localhost:4001',
->>>>>>> f983883a875ace1e9e484d9487fd0a1537d9bc41
   'https://jsbackend-4g8h.onrender.com',
-  'https://jacomdas.com'
+  'https://jacomdas.com',
 ];
 
 app.use(cors({
@@ -70,10 +65,10 @@ app.use(cors({
       callback(new Error('Not allowed by CORS'));
     }
   }
-}));
+}));*/
 
-//app.use(cors({origin: 'https://jsbackend-4g8h.onrender.com'}));
-//app.options("*", cors())
+app.use(cors());
+app.options("*", cors())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/uploads", express.static("uploads"));
