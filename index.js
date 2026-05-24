@@ -13,6 +13,9 @@ import user2Router from "./config/auth.js";
 import userRouter from "./routes/user.routes.js"
 import companyRouter from './routes/company.routes.js'
 import ClientRouter from "./routes/client.routes.js";
+import IncoiveRouter from "./routes/invoices.routes.js";
+import PaymentRouter from "./routes/payments.routes.js"
+
 import emailRouter from './routes/email.routes.js'
 
 import productosRoutes from "./routes/productos.js";
@@ -75,7 +78,6 @@ app.use("/uploads", express.static("uploads"));
 
 const PORT = process.env.PORT || 3998;
 
-
 const storage = multer.diskStorage({
   destination: "uploads/",        // carpeta donde guardar
   filename: (req, file, cb) => {
@@ -116,10 +118,15 @@ app.delete("/delete-multiple", (req, res) => {
   res.json({ message: "Imágenes eliminadas", count: files.length });
 });
 
+
+
+
 //app.use("/api/auth", user2Router);
 app.use("/api/v1/", userRouter);
 app.use("/api/v1/", companyRouter)
 app.use("/api/v1/", ClientRouter)
+app.use("/api/v1/", IncoiveRouter)
+app.use("/api/v1/", PaymentRouter)
 
 app.use("/api/v1/", emailRouter)
 
