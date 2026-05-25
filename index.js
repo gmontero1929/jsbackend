@@ -16,9 +16,13 @@ import ClientRouter from "./routes/client.routes.js";
 import IncoiveRouter from "./routes/invoices.routes.js";
 import PaymentRouter from "./routes/payments.routes.js"
 
+import IncoiveRouter from "./routes/invoices.routes.js";
+import PaymentRouter from "./routes/payments.routes.js"
+
 import emailRouter from './routes/email.routes.js'
 
 import productosRoutes from "./routes/productos.js";
+import serviciosRoutes from "./services/products.servicios.js";
 import serviciosRoutes from "./services/products.servicios.js";
 import ofertasRoutes from "./routes/ofertas.js";
 
@@ -72,6 +76,12 @@ app.use(cors({
 
 app.use(cors());
 app.options("*", cors())
+=======
+}));
+
+//app.use(cors({origin: 'https://jsbackend-4g8h.onrender.com'}));
+//app.options("*", cors())
+>>>>>>> b60b850a62948361fcfac86fff4e279564c7752b
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/uploads", express.static("uploads"));
@@ -121,10 +131,15 @@ app.delete("/delete-multiple", (req, res) => {
 
 
 
+
+
+
 //app.use("/api/auth", user2Router);
 app.use("/api/v1/", userRouter);
 app.use("/api/v1/", companyRouter)
 app.use("/api/v1/", ClientRouter)
+app.use("/api/v1/", IncoiveRouter)
+app.use("/api/v1/", PaymentRouter)
 app.use("/api/v1/", IncoiveRouter)
 app.use("/api/v1/", PaymentRouter)
 
