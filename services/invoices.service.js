@@ -18,7 +18,10 @@ export default class InvoiceService {
                 );
                
                 let totalDiscount = discount;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 145d19cbd75bcf8d6dfbd5fabe149e9ee05d54e4
                 if(percentage=="true"){
                   totalDiscount = ((discount * total) / 100)
                 }
@@ -84,7 +87,10 @@ all_Invoice_ByCompany = async (company_id) => {
               }
 }
 
+<<<<<<< HEAD
 /*
+=======
+>>>>>>> 145d19cbd75bcf8d6dfbd5fabe149e9ee05d54e4
 all_Invoices = async () => {     
   try {
                
@@ -102,7 +108,11 @@ all_Invoices = async () => {
                  console.log(err);                
                 return { "Invoice":{},"message": "Problemas al registrar" };
               }
+<<<<<<< HEAD
 }*/
+=======
+}
+>>>>>>> 145d19cbd75bcf8d6dfbd5fabe149e9ee05d54e4
 
 validateInvoice = (data) => {
   const errors = [];

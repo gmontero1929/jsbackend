@@ -54,10 +54,28 @@ const usuario  = sequelize.define('usuario2',{
  //console.log('All users:', JSON.stringify(users, null, 2));
 
 const app = express();
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 145d19cbd75bcf8d6dfbd5fabe149e9ee05d54e4
 /*
 const allowedOrigins = [
   'https://jsbackend-4g8h.onrender.com',
   'https://jacomdas.com',
+<<<<<<< HEAD
+=======
+=======
+
+const allowedOrigins = [
+<<<<<<< HEAD
+=======
+  //'http://localhost:4173',
+  //'http://localhost:4001',
+>>>>>>> f983883a875ace1e9e484d9487fd0a1537d9bc41
+  'https://jsbackend-4g8h.onrender.com',
+  'https://jacomdas.com'
+>>>>>>> b60b850a62948361fcfac86fff4e279564c7752b
+>>>>>>> 145d19cbd75bcf8d6dfbd5fabe149e9ee05d54e4
 ];
 
 app.use(cors({
@@ -68,10 +86,20 @@ app.use(cors({
       callback(new Error('Not allowed by CORS'));
     }
   }
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 145d19cbd75bcf8d6dfbd5fabe149e9ee05d54e4
 }));*/
 
 app.use(cors());
 app.options("*", cors())
+=======
+}));
+
+//app.use(cors({origin: 'https://jsbackend-4g8h.onrender.com'}));
+//app.options("*", cors())
+>>>>>>> b60b850a62948361fcfac86fff4e279564c7752b
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/uploads", express.static("uploads"));
