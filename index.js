@@ -19,7 +19,7 @@ import PaymentRouter from "./routes/payments.routes.js"
 import emailRouter from './routes/email.routes.js'
 
 import productosRoutes from "./routes/productos.js";
-import serviciosRoutes from "./services/servicios.js";
+import serviciosRoutes from "./services/products.servicios.js";
 import ofertasRoutes from "./routes/ofertas.js";
 
 
