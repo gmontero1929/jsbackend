@@ -83,7 +83,6 @@ all_Invoice_ByCompany = async (company_id) => {
               }
 }
 
-/*
 all_Invoices = async () => {     
   try {
                
