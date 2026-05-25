@@ -1,15 +1,14 @@
 import express from "express";
 import sql from "mssql";
-import { authRequired, requirePermission } from "../middleware/authMiddleware.js";
+import { authRequired, requirePermission } from "../middleware/auth.middleware.js";
 //import { connectDBSqlServer, connectDBMysql, sequelize } from "../config/db.js";
-import { connectDBMysql} from "../config/db.js";
+import { db} from "../config/db.js";
 
 const router = express.Router();
 
 //CONSULTAR TODOS LOS PRODUCTOS
 async function queryReturnProductos(){    
-   try {
-    const db = await connectDBMysql();
+   try {    
     const [results] =  await db.query(`Select * from Productos`);                
           
     return results;
@@ -21,7 +20,7 @@ async function queryReturnProductos(){
 
 //GUARDAR PRODUCTO
 async function querySaveProductos(producto){    
-    const db =  await connectDBMysql()
+    
     try {
       const [results] =  await db.query(`
             INSERT INTO Productos 
@@ -72,7 +71,7 @@ router.post("/", async (req, res) => {
 //router.put("/:id", authRequired, requirePermission("productos_edit"), async (req, res) => {
 //ACTUALIZANDO PRODUCTO
 router.put("/:id", async (req, res) => {
-  const db =  await connectDBMysql();
+  
   try {
     const { id } = req.params;
     const { Nombre, Descripcion, Precio, Ubicacion, Condicion } = req.body;
@@ -95,7 +94,7 @@ router.put("/:id", async (req, res) => {
 //authRequired, requirePermission("productos_delete"),
 //ELIMINADO PRODUCTO
 router.delete("/:id",  async (req, res) => {
-  const db =  await connectDBMysql();
+  
   try {
     const { id } = req.params;     
     const result = await db.query(`DELETE FROM Productos WHERE id = ${id}`);

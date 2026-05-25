@@ -7,10 +7,24 @@ import path from 'path'
 //import { connectDBSqlServer, sequelize} from "./config/db.js";
 import {DataTypes} from 'sequelize'
 
-import authRoutes from "./routes/auth.js";
+
+
+import user2Router from "./config/auth.js";
+import userRouter from "./routes/user.routes.js"
+import companyRouter from './routes/company.routes.js'
+import ClientRouter from "./routes/client.routes.js";
+import IncoiveRouter from "./routes/invoices.routes.js";
+import PaymentRouter from "./routes/payments.routes.js"
+
+import emailRouter from './routes/email.routes.js'
+
 import productosRoutes from "./routes/productos.js";
-import serviciosRoutes from "./routes/servicios.js";
+import serviciosRoutes from "./services/products.servicios.js";
 import ofertasRoutes from "./routes/ofertas.js";
+
+
+
+
 //import helmet from "helmet";
 
 dotenv.config();
@@ -40,13 +54,29 @@ const usuario  = sequelize.define('usuario2',{
  //console.log('All users:', JSON.stringify(users, null, 2));
 
 const app = express();
+/*
+const allowedOrigins = [
+  'https://jsbackend-4g8h.onrender.com',
+  'https://jacomdas.com',
+];
+
+app.use(cors({
+  origin: function(origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  }
+}));*/
+
 app.use(cors());
+app.options("*", cors())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/uploads", express.static("uploads"));
 
-const PORT = process.env.PORT || 4000;
-
+const PORT = process.env.PORT || 3998;
 
 const storage = multer.diskStorage({
   destination: "uploads/",        // carpeta donde guardar
@@ -88,7 +118,19 @@ app.delete("/delete-multiple", (req, res) => {
   res.json({ message: "Imágenes eliminadas", count: files.length });
 });
 
-app.use("/api/auth", authRoutes);
+
+
+
+//app.use("/api/auth", user2Router);
+app.use("/api/v1/", userRouter);
+app.use("/api/v1/", companyRouter)
+app.use("/api/v1/", ClientRouter)
+app.use("/api/v1/", IncoiveRouter)
+app.use("/api/v1/", PaymentRouter)
+
+app.use("/api/v1/", emailRouter)
+
+
 app.use("/api/productos", productosRoutes);
 app.use("/api/servicios", serviciosRoutes);
 app.use("/api/ofertas", ofertasRoutes);
