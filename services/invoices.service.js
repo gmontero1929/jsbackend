@@ -3,8 +3,7 @@ import { db } from "../config/db.js";
 export default class InvoiceService {
   constructor(parameters) {}
 
-
-   create_Invoice = async (data) => {    
+create_Invoice = async (data) => {    
             //const conn = await db.getConnection();
             
               try {
@@ -18,12 +17,12 @@ export default class InvoiceService {
                 );
                
                 let totalDiscount = discount;
+
                 if(percentage=="true"){
                   totalDiscount = ((discount * total) / 100)
                 }
 
-                let totalcalc = total - totalDiscount; 
-             
+                let totalcalc = total - totalDiscount;                
                 const [result] = await db.query(
                   `INSERT INTO invoices (descripcion, customer_id, company_id, total, discount, percentage, balance, issue_date, due_date)
                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
@@ -101,7 +100,7 @@ all_Invoices = async () => {
                  console.log(err);                
                 return { "Invoice":{},"message": "Problemas al registrar" };
               }
-}
+}*/
 
 validateInvoice = (data) => {
   const errors = [];
